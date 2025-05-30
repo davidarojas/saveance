@@ -29,10 +29,31 @@ yarn-error.*
 .DS_Store
 *.pem
 
-# local env files
-.env*.local
+# Environment variables
+.env*
+!.env.example
+*.env.local
 config.env
 .config.env
+
+# Sensitive files
+secrets.*
+credentials.*
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# Local development
+.vercel
+.next
+out
+build
+
+# Misc
+.DS_Store
+Thumbs.db
 
 # typescript
 *.tsbuildinfo

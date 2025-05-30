@@ -55,7 +55,7 @@ export default function LoginScreen({ navigation }: any) {
         onChangeText={setPassword}
       />
       <Button title={loading ? 'Logging in...' : 'Login'} onPress={handleLogin} disabled={loading} />
-      <ThemedText style={styles.link} onPress={() => navigation.navigate('signup')}>Sign up here</ThemedText>
+      <ThemedText style={styles.link} onPress={() => navigation.navigate('/signup')}>Sign up here</ThemedText>
       <ThemedText style={styles.link} onPress={() => navigation.navigate('forgot')}>Forgot your password?</ThemedText>
     </View>
   );
