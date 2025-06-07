@@ -44,6 +44,7 @@ export default function RootLayout() {
         <Stack.Screen name="auth/welcome" options={{ headerShown: false }} />
         <Stack.Screen name="auth/login" options={{ headerShown: false }} />
         <Stack.Screen name="auth/signup" options={{ headerShown: false }} />
+        <Stack.Screen name="auth/email-signup" options={{ headerShown: false }} />
         <Stack.Screen name="auth/forgot" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>

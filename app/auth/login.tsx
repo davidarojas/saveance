@@ -1,34 +1,56 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, TextInput, Button, StyleSheet, Alert, useColorScheme } from 'react-native';
+import { View, Pressable, TextInput, Button, StyleSheet, Alert, useColorScheme, Platform } from 'react-native';
 import { supabase } from '@/utils/supabaseClient';
 import { ThemedText } from '@/components/ThemedText';
 import LottieView from 'lottie-react-native';
 import { Colors } from '@/constants/Colors';
+import { useRouter } from 'expo-router';
+import * as AppleAuthentication from 'expo-apple-authentication';
+import { Ionicons } from '@expo/vector-icons';
 
-export default function LoginScreen({ navigation }: any) {
+export default function LoginScreen() {
+  const router = useRouter();
+  const colorScheme = useColorScheme();
+  const lottieBg = Colors[colorScheme ?? 'light'].accent;
   const animation = useRef<LottieView>(null);
-  useEffect(() => {
-    // You can control the ref programmatically, rather than using autoPlay
-    // animation.current?.play();
-  }, []);
-
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
   async function handleLogin() {
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    setLoading(false);
-    if (error) Alert.alert('Login error', error.message);
-    // You'd typically navigate to the main app here on success
+    try {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      
+      if (error) {
+        Alert.alert('Login error', error.message);
+        return;
+      }
+      
+      // Redirect to onboarding on successful login
+      router.replace('/(onboarding)' as any);
+    } catch (error) {
+      console.error('Login error:', error);
+      Alert.alert('Error', 'An error occurred during login');
+    } finally {
+      setLoading(false);
+    }
   }
-
-  const colorScheme = useColorScheme();
-  const lottieBg = Colors[colorScheme ?? 'light'].accent;
 
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+        <Pressable 
+          onPress={() => router.back()} 
+          style={({ pressed }) => [
+            styles.backButton,
+            pressed ? styles.backButtonPressed : null
+          ]}
+        >
+          <Ionicons name="arrow-back" size={24} color={Colors[colorScheme ?? 'light'].text} />
+        </Pressable>
+      </View>
       <View style={[styles.lottieContainer, { backgroundColor: lottieBg }]}> 
         <LottieView
           ref={animation}
@@ -55,8 +77,8 @@ export default function LoginScreen({ navigation }: any) {
         onChangeText={setPassword}
       />
       <Button title={loading ? 'Logging in...' : 'Login'} onPress={handleLogin} disabled={loading} />
-      <ThemedText style={styles.link} onPress={() => navigation.navigate('/signup')}>Sign up here</ThemedText>
-      <ThemedText style={styles.link} onPress={() => navigation.navigate('forgot')}>Forgot your password?</ThemedText>
+      <ThemedText style={styles.link} onPress={() => router.push('/auth/signup' as any)}>Sign up here</ThemedText>
+      <ThemedText style={styles.link} onPress={() => router.push('/auth/forgot' as any)}>Forgot your password?</ThemedText>
     </View>
   );
 }
@@ -66,6 +88,19 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 24 
+  },
+  header: {
+    position: 'absolute',
+    top: 40,
+    left: 20,
+    zIndex: 10,
+  },
+  backButton: {
+    padding: 8,
+    borderRadius: 20,
+  },
+  backButtonPressed: {
+    opacity: 0.7,
   },
   input: { 
     borderWidth: 1, 
