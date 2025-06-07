@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { View, StyleSheet, useColorScheme, TouchableOpacity } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { ThemedText } from '@/components/ThemedText';
@@ -29,11 +29,11 @@ export default function WelcomeScreen() {
       </ThemedText>
       <TouchableOpacity
         style={[styles.button, { backgroundColor: Colors[colorScheme ?? 'light'].accent }]}
-        onPress={() => router.push('/auth/signup')}
+        onPress={() => router.push('/auth/signup' as any)}
       >
         <ThemedText style={styles.buttonText}>Create an account</ThemedText>
       </TouchableOpacity>
-      <ThemedText style={[styles.loginLink, { color: Colors[colorScheme ?? 'light'].text }]} onPress={() => router.push('/auth/login')}>
+      <ThemedText style={[styles.loginLink, { color: Colors[colorScheme ?? 'light'].text }]} onPress={() => router.push('/auth/login' as any)}>
         Already have an account? <ThemedText style={styles.loginLinkBold} fontStyle="bold">Log in</ThemedText>
       </ThemedText>
     </ThemedView>
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 16
+    fontSize: 17
   },
   loginLink: {
     textAlign: 'center',

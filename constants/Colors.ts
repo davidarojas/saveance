@@ -30,6 +30,8 @@ export const Colors = {
     icon: lightAccent,
     tabIconDefault: '#687076',
     tabIconSelected: lightPrimary,
+    label: '#43484C',
+    placeholder: '#737D82'
   },
   dark: {
     text: '#ECEDEE',
@@ -41,5 +43,7 @@ export const Colors = {
     icon: darkAccent,
     tabIconDefault: '#A9AEB2',
     tabIconSelected: darkPrimary,
+    label: '#C9CCCF',
+    placeholder: '#7D848C'
   },
 };
